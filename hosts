@@ -1,0 +1,12 @@
+#Public IPs
+[k8s-master]
+XX.XXX.XX.XXX
+
+[k8s-workers]
+XX.XXX.XXX.XX
+XX.XXX.XXX.XX
+
+[k8s-workers:vars]
+#Private IP
+K8S_MASTER_NODE_IP=XXX.XX.XX.XX
+K8S_API_SECURE_PORT=6443
