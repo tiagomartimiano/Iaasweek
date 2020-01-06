@@ -1,0 +1,35 @@
+{
+  "variables": {
+      "ami_id": "ami-02cbed67225579b2c",
+      "aws_region": "us-west-2",
+      "ssh_username": "ubuntu",
+      "aws_vpc_id": "vpc-d479c9b3"
+  },
+
+  "builders": [{
+    "type": "amazon-ebs",
+    "region": "{{user `aws_region`}}",
+    "source_ami": "{{user `ami_id`}}",
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "IaaSWeek-k8s",
+    "ssh_keypair_name": "vaii",
+    "ssh_private_key_file": "vaii.pem",
+    "vpc_id": "{{user `aws_vpc_id`}}"
+  }],
+ 
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "./provisioners/ansible/setup-k8s.yml",
+      "user": "{{user `ssh_username`}}",
+      "ansible_env_vars": [
+        "ANSIBLE_HOST_KEY_CHECKING=False"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "./provisioners/scripts/opa.sh"
+    }
+  ]
+}
